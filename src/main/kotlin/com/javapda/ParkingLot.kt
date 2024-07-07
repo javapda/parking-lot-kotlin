@@ -1,7 +1,5 @@
 package com.javapda
 
-import java.util.*
-
 /**
  * Vehicle
  *
@@ -97,7 +95,7 @@ class ParkingLot(private var numberOfSpots: Int = 2) {
 
     private fun parkVehicle(vehicle: Vehicle, verbose: Boolean = false) {
         if (isFull()) {
-            println("Sorry, lot is full!")
+            println("Sorry, the parking lot is full.")
             return
         }
         val firstAvailableParkingSpot = parkingSpots.first(ParkingSpot::isAvailable)
@@ -115,12 +113,7 @@ class ParkingLot(private var numberOfSpots: Int = 2) {
 }
 
 fun main() {
-    val parkingLot = ParkingLot(numberOfSpots = 2, listOf(Vehicle("234-AZ", "Green")))
-    val scanner = Scanner(System.`in`)
-    // NOTE: it's messed up that Hyperskill accepted this as correct - oh, well
-    //while (scanner.hasNext() && parkingLot.userInput(scanner.nextLine()));
-    parkingLot.userInput(readln())
-    // parkingLot.userInput(scanner.nextLine())
-    //parkingLot.userInput(scanner.nextLine())
+    val parkingLot = ParkingLot(numberOfSpots = 20)
+    while (parkingLot.userInput(readln()));
 
 }
