@@ -1,5 +1,43 @@
 # [parking-lot-kotlin](https://github.com/javapda/parking-lot-kotlin)
 
+## [Stage 4/5](https://hyperskill.org/projects/75/stages/419/implement) : Size matters
+### Description
+In real life, parking lots vary in size. At this stage, we will get better at making art imitate life. 
+To do this, we will make our program customizable by adding a *create* command that allows the user to specify 
+the number of spots. For example, the command *create 3* makes a parking lot with three spots. The number of 
+spots should be positive. The program output should be the following: *Created a parking lot with 3 spots.*
+
+Other commands like *park* or *leave* should return an error *Sorry, a parking lot has not been created.* until the 
+user enters the *create* command. If the user calls create again, the previous parking state should be reset.
+
+It is also important to keep track of which spaces are occupied by which cars. For this, add a *status* command 
+that prints all occupied spots in ascending order. For each spot, it should print the spot number, the car’s plate 
+registration number, and the color of the car, all separated by spaces like the example below. If there are no occupied 
+spots, the program should print: Parking lot is empty.
+
+### Example
+The symbol > represents the user input.
+```
+> park KA-01-HH-9999 White
+Sorry, a parking lot has not been created.
+> create 3
+Created a parking lot with 3 spots.
+> status
+Parking lot is empty.
+> park KA-01-HH-9999 White
+White car parked in spot 1.
+> park KA-01-HH-3672 Green
+Green car parked in spot 2.
+> park Rs-P-N-21 Red
+Red car parked in spot 3.
+> leave 2
+Spot 2 is free.
+> status
+1 KA-01-HH-9999 White
+3 Rs-P-N-21 Red
+> exit
+```
+
 ## [Stage 3/5](https://hyperskill.org/projects/75/stages/418/implement) : Expand and park
 ### Description
 Two spots are not enough for a parking lot, so let's increase the number of parking spaces. We'll jump straight to 20 spaces, numbered from 1 to 20. Initially, all the spots are vacant.
@@ -40,7 +78,7 @@ As the first spot is already taken, the program should allocate the second spot 
 
 To pick up the car, the user should print the command leave and then the number of the parking spot, for example, leave 1. If there is no car in the given spot, the program should print an error: There is no car in spot 1. Otherwise, it should notify the user that the spot is now available: Spot 1 is free.
 
-### bad test runs:
+### bad test runs: (NOTE: solution was to break up the readln() in the main() functions while loop)
 ```courseignore
 FEEDBACK:
 Error in test #1

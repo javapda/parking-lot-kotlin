@@ -32,7 +32,7 @@ data class ParkingSpot(val number: Int, var vehicle: Vehicle? = null) {
  * @property numberOfSpots
  * @constructor Create empty Parking lot
  */
-class ParkingLot(private var numberOfSpots: Int = 2) {
+class ParkingLot(private var numberOfSpots: Int = 0) {
     /**
      *
      */
@@ -43,6 +43,7 @@ class ParkingLot(private var numberOfSpots: Int = 2) {
         vehicles.forEach(::parkVehicle)
     }
 
+    private var parkingLotCreated: Boolean = false
     private var parkingSpots = mutableListOf<ParkingSpot>()
 
     init {
@@ -61,14 +62,29 @@ class ParkingLot(private var numberOfSpots: Int = 2) {
             list:    $list
         """.trimIndent()
             )
+        if (!parkingLotCreated && !command.startsWith("create ")) {
+            println("Sorry, a parking lot has not been created.")
+            return true
+        }
         when (list.first()) {
             "create" -> createParkingSpots(list[1].toInt())
             "leave" -> leave(list[1].toInt())
             "park" -> parkVehicle(Vehicle(list[1], list[2]), true)
+            "status" -> printParkingLotStatus()
             "exit" -> return false
             else -> throw IllegalArgumentException("unknown command '$command'")
         }
         return true
+    }
+
+    private fun printParkingLotStatus() {
+        if (isEmpty()) {
+            println("Parking lot is empty.")
+        } else {
+            fun printParkingSpot(parkingSpot: ParkingSpot) =
+                println("${parkingSpot.number} ${parkingSpot.vehicle?.registrationNumber} ${parkingSpot.vehicle?.color}")
+            parkingSpots.filter(ParkingSpot::isOccupied).forEach(::printParkingSpot)
+        }
     }
 
     private fun parkingSpot(parkingSpotNumber: Int): ParkingSpot {
@@ -105,15 +121,27 @@ class ParkingLot(private var numberOfSpots: Int = 2) {
     }
 
     private fun isFull(): Boolean = !parkingSpots.any(ParkingSpot::isAvailable)
+    private fun isEmpty(): Boolean = !parkingSpots.any(ParkingSpot::isOccupied)
 
     private fun createParkingSpots(numberOfSpotsToCreate: Int) {
+        parkingLotCreated = false
         parkingSpots = MutableList(numberOfSpotsToCreate) { i -> ParkingSpot(i + 1) }
+        parkingLotCreated = true
+        println("Created a parking lot with $numberOfSpotsToCreate spots.")
+
     }
 
 }
 
 fun main() {
-    val parkingLot = ParkingLot(numberOfSpots = 20)
-    while (parkingLot.userInput(readln()));
+    val parkingLot = ParkingLot()
+    while (true) {
+        val userInput = readln()
+        val input = userInput.split(" ")
+        when (input[0]) {
+            "exit" -> break
+            else -> parkingLot.userInput(userInput)
+        }
+    }
 
 }
