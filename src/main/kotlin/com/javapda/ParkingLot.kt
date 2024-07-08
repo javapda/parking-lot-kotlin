@@ -71,11 +71,40 @@ class ParkingLot(private var numberOfSpots: Int = 0) {
             "leave" -> leave(list[1].toInt())
             "park" -> parkVehicle(Vehicle(list[1], list[2]), true)
             "status" -> printParkingLotStatus()
+            "reg_by_color" -> printRegistrationNumbersForColor(list[1])
+            "spot_by_color" -> printSpotForVehicleColor(list[1])
+            "spot_by_reg" -> printSpotForVehicleRegistrationNumber(list[1])
             "exit" -> return false
             else -> throw IllegalArgumentException("unknown command '$command'")
         }
         return true
     }
+
+    private fun printSpotForVehicleColor(color: String) {
+        val found = parkingSpots.filter { spot ->
+            spot.isOccupied() && spot.vehicle?.color.equals(
+                other = color,
+                ignoreCase = true
+            )
+        }
+        println(if (found.isEmpty()) "No cars with color $color were found." else found.map { spot -> spot.number }
+            .joinToString(", "))
+    }
+
+    private fun printSpotForVehicleRegistrationNumber(vehicleRegistrationNumber: String) {
+        val found =
+            parkingSpots.filter { spot -> spot.isOccupied() && spot.vehicle?.registrationNumber == vehicleRegistrationNumber }
+        println(if (found.isEmpty()) "No cars with registration number $vehicleRegistrationNumber were found." else found.first().number)
+    }
+
+    private fun printRegistrationNumbersForColor(color: String) {
+        val found = parkingSpots.filter(ParkingSpot::isOccupied)
+            .filter { spot -> spot.vehicle?.color.equals(color, ignoreCase = true) }
+            .map { parkingSpot -> parkingSpot.vehicle?.registrationNumber }
+            .joinToString(", ")
+        println(if (found.isEmpty()) "No cars with color $color were found." else found)
+    }
+
 
     private fun printParkingLotStatus() {
         if (isEmpty()) {
@@ -136,7 +165,7 @@ class ParkingLot(private var numberOfSpots: Int = 0) {
 fun main() {
     val parkingLot = ParkingLot()
     while (true) {
-        val userInput = readln()
+        val userInput = readln().trim()
         val input = userInput.split(" ")
         when (input[0]) {
             "exit" -> break

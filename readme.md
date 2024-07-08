@@ -1,5 +1,54 @@
 # [parking-lot-kotlin](https://github.com/javapda/parking-lot-kotlin)
 
+## [Stage 5/5](https://hyperskill.org/projects/75/stages/420/implement) : Carspotting
+### Description
+Now it's time to add some query commands.
+
+The command _**reg_by_color**_ prints all registration numbers of cars of a particular color, 
+taking color as a parameter. The color may be written in uppercase or lowercase letters. For 
+example, _**reg_by_color BLACK**_. The answer should contain registration numbers separated 
+by commas. The order should be the same as in the _**status**_ command. If there are no cars 
+of this color, the output should be like this: _**No cars with color BLACK were found.**_.
+
+The command _**spot_by_color**_ is similar to the previous one, but it prints the parking 
+space numbers of all the cars of a particular color.
+
+The command _**spot_by_reg**_ returns you the number of the spot where a car is located based 
+on its registration number, for example, _**spot_by_reg KA-01**_. This command will also return 
+an error message if your car was not found: _**No cars with registration number KA-01 were found.**_ 
+For convenience, let's suppose that all car registration numbers are unique.
+
+### Example
+The symbol > represents the user input.
+```
+> spot_by_color yellow
+Sorry, a parking lot has not been created.
+> create 4
+Created a parking lot with 4 spots.
+> park KA-01-HH-9999 White
+White car parked in spot 1.
+> park KA-01-HH-3672 White
+White car parked in spot 2.
+> park Rs-P-N-21 Red
+Red car parked in spot 3.
+> park Rs-P-N-22 Red
+Red car parked in spot 4.
+> reg_by_color GREEN
+No cars with color GREEN were found.
+> reg_by_color WHITE
+KA-01-HH-9999, KA-01-HH-3672
+> spot_by_color GREEN
+No cars with color GREEN were found.
+> spot_by_color red
+3, 4
+> spot_by_reg ABC
+No cars with registration number ABC were found.
+> spot_by_reg KA-01-HH-3672
+2
+> spot_by_reg Rs-P-N-21
+3
+> exit
+```
 ## [Stage 4/5](https://hyperskill.org/projects/75/stages/419/implement) : Size matters
 ### Description
 In real life, parking lots vary in size. At this stage, we will get better at making art imitate life. 
